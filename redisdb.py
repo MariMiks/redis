@@ -7,6 +7,16 @@ r = redis.Redis(
     password='djKSLT6YdkSykmDTFUqSGabMZEeNCoNb'
 )
 
+def iniciar_sessao(nome):
+    token = str(uuid.uuid4())
+    r.set(token, nome)
+    r.expire(token, 1800)  # Sessão expira em 30 minutos (1800 segundos)
+
+def verificar_sessao(token):
+    if r.exists(token):
+        r.expire(token, 1800)  # Renova o tempo de expiração
+        return r.get(token).decode('utf-8')
+    return None
 
 def temporario_usuario(nome, senha):
     chave = f"temp_user:{nome}"

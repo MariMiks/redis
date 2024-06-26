@@ -1,4 +1,6 @@
 import getpass
+import redisdb
+from mongodb import cadastrar_usuario, verificar_credenciais
 
 
 def menu_login():
