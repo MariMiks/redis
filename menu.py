@@ -1,6 +1,7 @@
+import json
 import getpass
-from redisdb import iniciar_sessao, verificar_sessao, temporario_usuario, limpar_temporario_usuario, obter_temporario_usuario
-from mongodb import cadastrar_usuario, verificar_credenciais
+from redisdb import iniciar_sessao, verificar_sessao, temporario_usuario, limpar_temporario_usuario, obter_temporario_usuario, conectRedis
+from mongodb import cadastrar_usuario, verificar_credenciais, usuario
 
 def criar_conta_temporaria():
     nome = input("Nome: ")
@@ -32,6 +33,37 @@ def menu_login():
             if user:
                 token = iniciar_sessao(email)
                 print(f"Login bem-sucedido! Token da sessão: {token}")
+                
+                menu2 = input("O que deseja fazer agora?\n 1. Alterar dados usuário \nOpção:")
+                if menu2 == '1':
+                    tempDefinitiva = input("Conta temporário (T) ou definitiva (D)? ").upper()
+                    if tempDefinitiva == "T":
+                        usuarioAlterar = usuario.find_one({"email": email})
+                        if usuarioAlterar:
+                            usuarioJson = json.dumps(usuarioAlterar, default=str)
+                            nomeNovo = input("Digite o novo nome: ")
+                            
+                            if nomeNovo: usuarioJson['nome'] = nomeNovo
+                            
+                            usuario.update_one({"_id": usuarioJson["email"]}, {"$set": usuarioJson})
+                            print("Usuário alterado no Mongo com sucesso!")
+
+
+                        else:
+                            print("Usuário logado não encontrado no Mongo")
+                    else:
+                        usuarioAlterar = conectRedis.get(email)
+                        if usuarioAlterar:
+                            usuarioJson = json.dumps(usuarioAlterar, default=str)
+                            nomeNovo = input("Digite o novo nome: ")
+                            
+                            if nomeNovo: usuarioJson['nome'] = nomeNovo
+                            
+                            conectRedis.set(email, usuarioJson)
+                            print("Usuário alterado no Redis com sucesso!")
+                        else:
+                            print("Usuário logado não encotrado no Redis")
+
             else:
                 print("Credenciais inválidas.")
         

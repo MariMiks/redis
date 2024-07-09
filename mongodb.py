@@ -6,6 +6,7 @@ import bcrypt
 uri = 'mongodb+srv://marianasilva155:marianasilva155@fatecnosql.vyamlgr.mongodb.net/?retryWrites=true&w=majority&appName=FatecNoSQL'
 client = pymongo.MongoClient(uri, server_api=ServerApi('1'))
 db = client.MercadoLivre
+global usuario
 usuario = db["Usuário"]
 
 def cadastrar_usuario(nome, senha, email):
