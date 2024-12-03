@@ -3,7 +3,7 @@ from pymongo import MongoClient
 from pymongo.server_api import ServerApi
 import bcrypt
 
-uri = 'mongodb+srv://marianasilva155:marianasilva155@fatecnosql.vyamlgr.mongodb.net/?retryWrites=true&w=majority&appName=FatecNoSQL'
+uri = 'mongodb+srv://izumifatec:n68oXixu0jEow8iy@cluster0.wawlm.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0'
 client = pymongo.MongoClient(uri, server_api=ServerApi('1'))
 db = client.MercadoLivre
 global usuario

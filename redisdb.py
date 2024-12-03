@@ -3,9 +3,9 @@ import json
 import uuid
 
 conectRedis = redis.Redis(
-    host='redis-13985.c281.us-east-1-2.ec2.redns.redis-cloud.com',
+    host='redis-14966.c99.us-east-1-4.ec2.redns.redis-cloud.com:14966',
     port=13985,
-    password='djKSLT6YdkSykmDTFUqSGabMZEeNCoNb'
+    password='8Oa3FMcHvk69FYtVJcS3xJsk32se6X49'
 )
 
 def iniciar_sessao(email):
